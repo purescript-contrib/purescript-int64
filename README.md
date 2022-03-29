@@ -1,3 +1,6 @@
+__*WIP*__ I intend to move this package to __purescript-contrib__ after the PureScript
+0.15 release stabilizes.
+
 # purescript-int64
 
 Signed and unsigned 64-bit integer types.
