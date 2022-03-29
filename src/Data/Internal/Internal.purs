@@ -85,8 +85,6 @@ instance infoUnsigned :: SInfo Unsigned where
        else Nothing
 
 newtype Long' (s :: Signedness) = Long' FFI.Long
--- type Long = Long' Signed
--- type ULong = Long' Unsigned
 
 -- | Unsigned 64-bit integer.
 type UInt64 = Long' Unsigned
@@ -262,14 +260,8 @@ unsignedToSigned (Long' x) = Long' $ FFI.toSigned x
 
 -- Utils
 
-signedProxy :: SignProxy Signed
-signedProxy = SignProxy
-
-unsignedProxy :: SignProxy Unsigned
-unsignedProxy = SignProxy
-
 isNumberInLongRange :: forall s. Bounded (Long' s) => SignProxy s -> Number -> Boolean
-isNumberInLongRange p n =
+isNumberInLongRange _ n =
   longBottomValueN <= n && n <= longTopValueN
   where
     longBottomValueN = toNumber (bottom :: Long' s)
