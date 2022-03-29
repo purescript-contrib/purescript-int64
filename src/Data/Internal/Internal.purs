@@ -1,7 +1,7 @@
-module Data.Long.Internal
+module Data.Int64.Internal
        ( Long'
-       , Long
-       , ULong
+       -- , Long
+       -- , ULong
        , kind Signedness
        , Signed
        , Unsigned
@@ -48,12 +48,12 @@ import Prelude
 import Data.Function.Uncurried (Fn3, runFn2, runFn3)
 import Data.Int (Parity(..), Radix, decimal)
 import Data.Int as Int
-import Data.Long.FFI as FFI
+import Data.Int64.Internal.FFI as FFI
 import Data.Maybe (Maybe(..))
 import Data.Nullable (Nullable)
 import Data.Nullable as Nullable
 import Data.Ord (abs)
-import Test.QuickCheck.Arbitrary (class Arbitrary, arbitrary)
+-- import Test.QuickCheck.Arbitrary (class Arbitrary, arbitrary)
 
 foreign import kind Signedness
 
@@ -85,8 +85,15 @@ instance infoUnsigned :: SInfo Unsigned where
        else Nothing
 
 newtype Long' (s :: Signedness) = Long' FFI.Long
-type Long = Long' Signed
-type ULong = Long' Unsigned
+-- type Long = Long' Signed
+-- type ULong = Long' Unsigned
+
+-- | Unsigned 64-bit integer.
+type UInt64 = Long' Unsigned
+
+-- | Signed two’s-complement 64-bit integer.
+type Int64 = Long' Signed
+
 
 instance showLong' :: Show (Long' s) where
   show (Long' l) = show l

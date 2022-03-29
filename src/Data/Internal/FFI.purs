@@ -1,4 +1,4 @@
-module Data.Long.FFI
+module Data.Int64.Internal.FFI
        ( Long
        , IsUnsigned(..)
        , IsLittleEndian(..)

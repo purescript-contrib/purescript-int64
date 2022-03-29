@@ -1,4 +1,4 @@
-module Data.Long
+module Data.Int64
        ( module R
        , fromLowHighBits
        , fromInt
@@ -17,89 +17,131 @@ module Data.Long
        , quot
        , rem
        , toUnsigned
+       , and, (.&.)
+       , or, (.|.)
+       , xor, (.^.)
+       , shl
+       , shr
+       , zshr
+       , complement
        ) where
 
 import Data.Int (Parity, Radix)
-import Data.Long.Internal (Long, Long', kind Signedness, Signed, Unsigned) as R
-import Data.Long.Internal (Long, ULong)
-import Data.Long.Internal as Internal
+import Data.Int64.Internal (Int64) as R
+import Data.Int64.Internal (Long', kind Signedness, Signed, Unsigned)
+-- import Data.Int64.Internal (Long, ULong)
+import Data.Int64.Internal as Internal
 import Data.Maybe (Maybe)
 
--- | Creates a `Long` from an `Int` value
-fromInt :: Int -> Long
+-- | Creates an `Int64` from an `Int` value
+fromInt :: Int -> Int64
 fromInt = Internal.signedLongFromInt
 
--- | Creates an `Long` from a `Number` value. The number must already be an
--- | integer and fall within the valid range of values for the `Long` type
+-- | Creates an `Int64` from a `Number` value. The number must already be an
+-- | integer and fall within the valid range of values for the `Int64` type
 -- | otherwise `Nothing` is returned.
-fromNumber :: Number -> Maybe Long
+fromNumber :: Number -> Maybe Int64
 fromNumber = Internal.fromNumber
 
--- | Creates a signed `Long` from low and high bits respresented as `Int`
-fromLowHighBits :: Int -> Int -> Long
+-- | Creates an `Int64` from low and high bits respresented as `Int`
+fromLowHighBits :: Int -> Int -> Int64
 fromLowHighBits = Internal.fromLowHighBits
 
--- | Reads an `Long` from a `String` value. The number must parse as an integer
--- | and fall within the valid range of values for the `Long` type, otherwise
+-- | Reads an `Int64` from a `String` value. The number must parse as an integer
+-- | and fall within the valid range of values for the `Int64` type, otherwise
 -- | `Nothing` is returned.
-fromString :: String -> Maybe Long
+fromString :: String -> Maybe Int64
 fromString = Internal.fromString
 
 -- | Like `fromString`, but the integer can be specified in a different base.
-fromStringAs :: Radix -> String -> Maybe Long
+fromStringAs :: Radix -> String -> Maybe Int64
 fromStringAs = Internal.fromStringAs
 
--- | Get low bits of a `Long` as an `Int`
-lowBits :: Long -> Int
+-- | Get the low (least significant) bits of an `Int64` as an `Int`
+lowBits :: Int64 -> Int
 lowBits = Internal.lowBits
 
--- | Get high bits of a `Long` as an `Int`
-highBits :: Long -> Int
+-- | Get the high (most significant) bits of an `Int64` as an `Int`
+highBits :: Int64 -> Int
 highBits = Internal.highBits
 
--- | Creates an `Int` if the `Long` value is within the range of `Long`.
-toInt :: Long -> Maybe Int
+-- | Creates an `Int` if the `Int64` value is within the range of `Int64`.
+toInt :: Int64 -> Maybe Int
 toInt = Internal.toInt
 
 -- | Like `show`, but omits the `l` suffix.
-toString :: Long -> String
+toString :: Int64 -> String
 toString = Internal.toString
 
 -- | Like `toStringAs`, but the integer can be specified in a different base.
-toStringAs :: Radix -> Long -> String
+toStringAs :: Radix -> Int64 -> String
 toStringAs = Internal.toStringAs
 
--- | Creates a `Number` value from a `Long`. Values not within
+-- | Creates a `Number` value from a `Int64`. Values not within
 -- | `Number.MIN_SAFE_INTEGER` and `Number.MAX_SAFE_INTEGER` will lose precision.
-toNumber :: Long -> Number
+toNumber :: Int64 -> Number
 toNumber = Internal.toNumber
 
--- | Returns whether a `Long` is `Even` or `Odd`.
-parity :: Long -> Parity
+-- | Returns whether a `Int64` is `Even` or `Odd`.
+parity :: Int64 -> Parity
 parity = Internal.parity
 
--- | Returns whether a `Long` is an even number.
-even :: Long -> Boolean
+-- | Returns whether a `Int64` is an even number.
+even :: Int64 -> Boolean
 even = Internal.even
 
--- | Returns whether a `Long` is an odd number.
-odd :: Long -> Boolean
+-- | Returns whether a `Int64` is an odd number.
+odd :: Int64 -> Boolean
 odd = Internal.odd
 
 -- | The `quot` function provides _truncating_ long division (see the
 -- | documentation for the `EuclideanRing` class). It is identical to `div` in
 -- | the `EuclideanRing Int` instance if the dividend is positive, but will be
 -- | slightly different if the dividend is negative.
-quot :: Long -> Long -> Long
+quot :: Int64 -> Int64 -> Int64
 quot = Internal.quot
 
 -- | The `rem` function provides the remainder after _truncating_ long
 -- | division (see the documentation for the `EuclideanRing` class). It is
 -- | identical to `mod` in the `EuclideanRing Int` instance if the dividend is
 -- | positive, but will be slightly different if the dividend is negative.
-rem :: Long -> Long -> Long
+rem :: Int64 -> Int64 -> Int64
 rem = Internal.rem
 
--- | Converts to an unsigned long by reading the bits as a 64 bit unsigned integer.
-toUnsigned :: Long -> ULong
+-- | Converts to a `UInt64` by reading the bits as a 64 bit unsigned integer.
+toUnsigned :: Int64 -> UInt64
 toUnsigned = Internal.signedToUnsigned
+
+-- | Bitwise AND.
+and :: Int64 -> Int64 -> Int64
+and = Internal.and
+
+infixl 10 and as .&.
+
+-- | Bitwise OR.
+or :: Int64 -> Int64 -> Int64
+or = Internal.or
+
+infixl 10 or as .|.
+
+-- | Bitwise XOR.
+xor :: Int64 -> Int64 -> Int64
+xor = Internal.xor
+
+infixl 10 xor as .^.
+
+-- | Bitwise shift left.
+shl :: Int64 -> Int64 -> Int64
+shl = Internal.shl
+
+-- | Bitwise shift right.
+shr :: Int64 -> Int64 -> Int64
+shr = Internal.shr
+
+-- | Bitwise zero-fill shift right.
+zshr :: Int64 -> Int64 -> Int64
+zshr = Internal.zshr
+
+-- | Bitwise NOT.
+complement :: Int64 -> Int64
+complement = Internal.complement
