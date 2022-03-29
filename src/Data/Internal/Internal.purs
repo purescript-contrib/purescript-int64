@@ -1,8 +1,8 @@
 module Data.Int64.Internal
        ( Long'
-       -- , Long
-       -- , ULong
-       , kind Signedness
+       , Int64
+       , UInt64
+       , Signedness
        , Signed
        , Unsigned
        , class SInfo
@@ -55,7 +55,7 @@ import Data.Nullable as Nullable
 import Data.Ord (abs)
 -- import Test.QuickCheck.Arbitrary (class Arbitrary, arbitrary)
 
-foreign import kind Signedness
+foreign import data Signedness :: Type
 
 foreign import data Signed :: Signedness
 foreign import data Unsigned :: Signedness
@@ -150,8 +150,8 @@ instance euclideanRingLong'Unsigned :: EuclideanRing (Long' Unsigned) where
   div = quot
   mod = rem
 
-instance arbitraryLong' :: SInfo s => Arbitrary (Long' s) where
-  arbitrary = fromLowHighBits <$> arbitrary <*> arbitrary
+-- instance arbitraryLong' :: SInfo s => Arbitrary (Long' s) where
+--   arbitrary = fromLowHighBits <$> arbitrary <*> arbitrary
 
 -- Constructors
 

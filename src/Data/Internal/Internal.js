@@ -1,8 +1,10 @@
-exports.numberBitsToInt = function(x) {
+import FFI from './FFI.js';
+
+export const numberBitsToInt = function(x) {
   return x|0;
 };
 
-var Long = require("long");
+// var Long = require("long");
 
 var radixCheckers = {};
 
@@ -18,9 +20,9 @@ function RadixChecker(radix) {
 
   this.baseRE = new RegExp("^" + digits + "+$", "i");
 
-  this.maxNegSignedBase = Long.MIN_VALUE.toString(radix).substring(1);
-  this.maxPosSignedBase = Long.MAX_VALUE.toString(radix);
-  this.maxUnsignedBase = Long.MAX_UNSIGNED_VALUE.toString(radix);
+  this.maxNegSignedBase = FFI.MIN_VALUE.toString(radix).substring(1);
+  this.maxPosSignedBase = FFI.MAX_VALUE.toString(radix);
+  this.maxUnsignedBase = FFI.MAX_UNSIGNED_VALUE.toString(radix);
 }
 
 function hasValidDigits(isNegative, isUnsigned, base, radix) {
@@ -41,7 +43,7 @@ function hasValidDigits(isNegative, isUnsigned, base, radix) {
          ) && rc.baseRE.test(base);
 }
 
-exports._safeReadLong = function(s, isUnsigned, radix) {
+export const _safeReadLong = function(s, isUnsigned, radix) {
   var isNegative = s.startsWith("-");
   var hasPositivePrefix = s.startsWith("+");
 
@@ -73,6 +75,6 @@ exports._safeReadLong = function(s, isUnsigned, radix) {
   return retVal;
 };
 
-exports.isWholeNumber = function(n) {
+export const isWholeNumber = function(n) {
   return Number.isInteger(n);
 };

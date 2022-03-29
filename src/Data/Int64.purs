@@ -28,7 +28,7 @@ module Data.Int64
 
 import Data.Int (Parity, Radix)
 import Data.Int64.Internal (Int64) as R
-import Data.Int64.Internal (Long', kind Signedness, Signed, Unsigned)
+import Data.Int64.Internal (Int64, UInt64)
 -- import Data.Int64.Internal (Long, ULong)
 import Data.Int64.Internal as Internal
 import Data.Maybe (Maybe)
