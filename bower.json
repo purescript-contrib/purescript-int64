@@ -1,0 +1,25 @@
+{
+    "name": "purescript-long",
+    "license": [
+        "MIT"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/jamesdbrock/purescript-int64"
+    },
+    "ignore": [
+        "**/.*",
+        "node_modules",
+        "bower_components",
+        "output"
+    ],
+    "dependencies": {
+        "purescript-effect": "https://github.com/purescript/purescript-effect.git#master",
+        "purescript-foreign": "https://github.com/purescript/purescript-foreign.git#master",
+        "purescript-functions": "https://github.com/purescript/purescript-functions.git#master",
+        "purescript-integers": "https://github.com/purescript/purescript-integers.git#master",
+        "purescript-maybe": "https://github.com/purescript/purescript-maybe.git#master",
+        "purescript-nullable": "https://github.com/purescript-contrib/purescript-nullable.git#main",
+        "purescript-prelude": "https://github.com/purescript/purescript-prelude.git#master"
+    }
+}
