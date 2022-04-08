@@ -1,5 +1,5 @@
-__*WIP*__ I intend to move this package to __purescript-contrib__ after the PureScript
-0.15 release stabilizes.
+__*WIP*__ I intend to move this package to https://github.com/purescript-contrib
+after the PureScript 0.15 release stabilizes.
 
 # purescript-int64
 
@@ -7,7 +7,7 @@ Signed and unsigned 64-bit integer types.
 
 ## Design
 
-From [dcodeIO/long.js](https://github.com/dcodeIO/long.js):
+From [__dcodeIO/long.js__](https://github.com/dcodeIO/long.js):
 
 > A Long class for representing a 64 bit two's-complement integer value derived
 > from the [Closure Library](https://github.com/google/closure-library)
