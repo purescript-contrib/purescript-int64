@@ -63,6 +63,12 @@ You can contribute to `int64` in several ways:
 
 3. If you have written a library, tutorial, guide, or other resource based on this package, please share it on the [PureScript Discourse](https://discourse.purescript.org)! Writing libraries and learning resources are a great way to help this library succeed.
 
+## Development
+
+Run the test suite:
+
+    spago -x spago-dev.dhall test
+
 ## Provenance
 
 Most of this code was copied from
