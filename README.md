@@ -21,7 +21,7 @@ From [__dcodeIO/long.js__](https://github.com/dcodeIO/long.js):
 > ## WebAssembly support
 >
 > [WebAssembly](http://webassembly.org) supports 64-bit integer arithmetic out
-> of the box, hence a [tiny WebAssembly module](./src/Data/Internal/long.js/wasm.wat) is
+> of the box, hence a tiny WebAssembly module is
 > used to compute operations like multiplication, division and remainder more
 > efficiently (slow operations like division are around twice as fast), falling
 > back to floating point based computations in JavaScript where WebAssembly is
