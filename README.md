@@ -1,7 +1,6 @@
 # Int64
 
 [![CI](https://github.com/purescript-contrib/purescript-int64/workflows/CI/badge.svg?branch=main)](https://github.com/purescript-contrib/purescript-int64/actions?query=workflow%3ACI+branch%3Amain)
-[![Release](https://img.shields.io/github/release/purescript-contrib/purescript-int64.svg)](https://github.com/purescript-contrib/purescript-int64/releases)
 [![Pursuit](https://pursuit.purescript.org/packages/purescript-int64/badge)](https://pursuit.purescript.org/packages/purescript-int64)
 [![Maintainer: jamesdbrock](https://img.shields.io/badge/maintainer-jamesdbrock-teal.svg)](https://github.com/jamesdbrock)
 
