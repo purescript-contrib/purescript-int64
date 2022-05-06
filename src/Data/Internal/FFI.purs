@@ -12,15 +12,15 @@ module Data.Int64.Internal.FFI
        , minValue
        , maxUnsignedValue
        -- Utilities
-       , isLong
-       , fromBits
-       , fromBytes
-       , fromBytesLE
-       , fromBytesBE
-       , fromInt
-       , fromNumber
-       , fromString
-       , fromValue
+       , isLong_
+       , fromBits_
+       , fromBytes_
+       , fromBytesLE_
+       , fromBytesBE_
+       , fromInt_
+       , fromNumber_
+       , fromString_
+       , fromValue_
        -- Fields
        , unsigned
        -- Methods
@@ -128,31 +128,31 @@ foreign import maxUnsignedValue :: Long
 --
 
 --| Tests if the specified object is a Long
-foreign import isLong :: Fn1 Foreign Boolean
+foreign import isLong_ :: Fn1 Foreign Boolean
 
 --| Returns a Long representing the 64 bit integer that comes by concatenating the given low and high bits. Each is assumed to use 32 bits.
-foreign import fromBits :: Fn3 Int Int IsUnsigned Long
+foreign import fromBits_ :: Fn3 Int Int IsUnsigned Long
 
 --| Creates a Long from its byte representation.
-foreign import fromBytes :: Fn3 (Array Int) IsUnsigned IsLittleEndian Long
+foreign import fromBytes_ :: Fn3 (Array Int) IsUnsigned IsLittleEndian Long
 
 --| Creates a Long from its little endian byte representation.
-foreign import fromBytesLE :: Fn2 (Array Int) IsUnsigned Long
+foreign import fromBytesLE_ :: Fn2 (Array Int) IsUnsigned Long
 
 --| Creates a Long from its big endian byte representation.
-foreign import fromBytesBE :: Fn2 (Array Int) IsUnsigned Long
+foreign import fromBytesBE_ :: Fn2 (Array Int) IsUnsigned Long
 
 --| Returns a Long representing the given 32 bit integer value.
-foreign import fromInt :: Fn2 Int IsUnsigned Long
+foreign import fromInt_ :: Fn2 Int IsUnsigned Long
 
 --| Returns a Long representing the given value, provided that it is a finite number. Otherwise, zero is returned.
-foreign import fromNumber :: Fn2 Number IsUnsigned Long
+foreign import fromNumber_ :: Fn2 Number IsUnsigned Long
 
 --| Returns a Long representation of the given string, written using the specified radix.
-foreign import fromString :: EffectFn3 String IsUnsigned Radix Long
+foreign import fromString_ :: EffectFn3 String IsUnsigned Radix Long
 
 --| Converts the specified value to a Long using the appropriate from* function for its type.
-foreign import fromValue :: Fn2 Foreign IsUnsigned Long
+foreign import fromValue_ :: Fn2 Foreign IsUnsigned Long
 
 --
 -- Fields

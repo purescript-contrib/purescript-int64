@@ -31,18 +31,18 @@ ffiSpec = describe "FFI" do
     FFI.maxUnsignedValue `shouldEqual` (unsafeS2lU "18446744073709551615")
 
   it "should create longs" do
-    liftEffect $ assert $ FFI.isLong (unsafeToForeign FFI.zero)
-    (runFn3 FFI.fromBits sampleS.low sampleS.high isSignedV) `shouldEqual` sampleS.value
-    (runFn3 FFI.fromBits sampleU.low sampleU.high isUnsignedV) `shouldEqual` sampleU.value
-    (runFn3 FFI.fromBytes sampleS.beBytes isSignedV isBigEndianV) `shouldEqual` sampleS.value
-    (runFn2 FFI.fromBytesLE sampleS.leBytes isSignedV) `shouldEqual` sampleS.value
-    (runFn2 FFI.fromBytesBE sampleS.beBytes isSignedV) `shouldEqual` sampleS.value
-    (runFn2 FFI.fromInt 2 isSignedV) `shouldEqual` (unsafeS2lS "2")
-    (runFn2 FFI.fromNumber 2.0 isSignedV) `shouldEqual` (unsafeS2lS "2")
-    (runFn2 FFI.fromNumber 2.0 isSignedV) `shouldEqual` (unsafeS2lS "2")
-    (liftEffect $ runEffectFn3 FFI.fromString "2" isSignedV decimal)
-      >>= (_ `shouldEqual` (runFn2 FFI.fromInt 2 isSignedV))
-    expectError $ liftEffect (runEffectFn3 FFI.fromString "2-2" isSignedV decimal)
+    liftEffect $ assert $ FFI.isLong_ (unsafeToForeign FFI.zero)
+    (runFn3 FFI.fromBits_ sampleS.low sampleS.high isSignedV) `shouldEqual` sampleS.value
+    (runFn3 FFI.fromBits_ sampleU.low sampleU.high isUnsignedV) `shouldEqual` sampleU.value
+    (runFn3 FFI.fromBytes_ sampleS.beBytes isSignedV isBigEndianV) `shouldEqual` sampleS.value
+    (runFn2 FFI.fromBytesLE_ sampleS.leBytes isSignedV) `shouldEqual` sampleS.value
+    (runFn2 FFI.fromBytesBE_ sampleS.beBytes isSignedV) `shouldEqual` sampleS.value
+    (runFn2 FFI.fromInt_ 2 isSignedV) `shouldEqual` (unsafeS2lS "2")
+    (runFn2 FFI.fromNumber_ 2.0 isSignedV) `shouldEqual` (unsafeS2lS "2")
+    (runFn2 FFI.fromNumber_ 2.0 isSignedV) `shouldEqual` (unsafeS2lS "2")
+    (liftEffect $ runEffectFn3 FFI.fromString_ "2" isSignedV decimal)
+      >>= (_ `shouldEqual` (runFn2 FFI.fromInt_ 2 isSignedV))
+    expectError $ liftEffect (runEffectFn3 FFI.fromString_ "2-2" isSignedV decimal)
 
   it "should access fields" do
     FFI.unsigned (i2lU 2) `shouldEqual` isUnsignedV

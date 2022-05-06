@@ -162,15 +162,15 @@ unsignedLongFromInt i
   | otherwise = Nothing
 
 unsafeFromInt :: forall s. SInfo s => Int -> Long' s
-unsafeFromInt i = Long' $ runFn2 FFI.fromInt i (ffiSignedness (SignProxy :: SignProxy s))
+unsafeFromInt i = Long' $ runFn2 FFI.fromInt_ i (ffiSignedness (SignProxy :: SignProxy s))
 
 fromLowHighBits :: forall s. SInfo s => Int -> Int -> Long' s
-fromLowHighBits l h = Long' $ runFn3 FFI.fromBits l h (ffiSignedness (SignProxy :: SignProxy s))
+fromLowHighBits l h = Long' $ runFn3 FFI.fromBits_ l h (ffiSignedness (SignProxy :: SignProxy s))
 
 fromNumber :: forall s. SInfo s => Bounded (Long' s) => Number -> Maybe (Long' s)
 fromNumber n =
   if isValidNumber
-  then Just $ Long' $ runFn2 FFI.fromNumber n (ffiSignedness p)
+  then Just $ Long' $ runFn2 FFI.fromNumber_ n (ffiSignedness p)
   else Nothing
 
   where

@@ -18,16 +18,16 @@ import Effect.Uncurried (runEffectFn3)
 import Effect.Unsafe (unsafePerformEffect)
 
 i2lS :: Int -> FFI.Long
-i2lS i = runFn2 FFI.fromInt i isSignedV
+i2lS i = runFn2 FFI.fromInt_ i isSignedV
 
 i2lU :: Int -> FFI.Long
-i2lU i = runFn2 FFI.fromInt i isUnsignedV
+i2lU i = runFn2 FFI.fromInt_ i isUnsignedV
 
 unsafeS2lS :: String -> FFI.Long
-unsafeS2lS s = unsafePerformEffect $ runEffectFn3 FFI.fromString s isSignedV decimal
+unsafeS2lS s = unsafePerformEffect $ runEffectFn3 FFI.fromString_ s isSignedV decimal
 
 unsafeS2lU :: String -> FFI.Long
-unsafeS2lU s = unsafePerformEffect $ runEffectFn3 FFI.fromString s isUnsignedV decimal
+unsafeS2lU s = unsafePerformEffect $ runEffectFn3 FFI.fromString_ s isUnsignedV decimal
 
 -- Constants
 

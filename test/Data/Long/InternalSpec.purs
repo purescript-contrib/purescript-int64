@@ -182,8 +182,8 @@ readUnsigned = Internal.fromStringAs
 i2lS :: Int -> Int64
 i2lS = Internal.signedLongFromInt
 
-i2lU :: Int -> UInt64
-i2lU = Internal.unsafeFromInt
+-- i2lU :: Int -> UInt64
+-- i2lU = Internal.unsafeFromInt
 
 prxSignedLong :: Proxy Int64
 prxSignedLong = Proxy

@@ -1,10 +1,8 @@
-import FFI from './FFI.js';
+import * as FFI from '../Data.Int64.Internal.FFI/foreign.js';
 
 export const numberBitsToInt = function(x) {
   return x|0;
 };
-
-// var Long = require("long");
 
 var radixCheckers = {};
 
@@ -67,7 +65,7 @@ export const _safeReadLong = function(s, isUnsigned, radix) {
       var signPrefix = isNegative ? "-" : "";
 
       // long.js may throw errors
-      retVal = Long.fromString(signPrefix + base, isUnsigned, radix);
+      retVal = FFI.fromString(signPrefix + base, isUnsigned, radix);
     } catch (err) {
     }
   }
