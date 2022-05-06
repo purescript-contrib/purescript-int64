@@ -7,9 +7,9 @@ import Prelude
 import Data.Array as Array
 import Data.Function.Uncurried (runFn2, runFn3)
 import Data.Int (decimal)
-import Data.Long.FFI (Long)
-import Data.Long.FFI as FFI
-import Data.Long.Internal as Internal
+import Data.Int64.Internal.FFI (Long)
+import Data.Int64.Internal.FFI as FFI
+import Data.Int64.Internal as Internal
 import Data.Long.TestUtils (i2lS, i2lU, isBigEndianV, isLittleEndianV, isSignedV, isUnsignedV, unsafeS2lS, unsafeS2lU)
 import Effect.Class (liftEffect)
 import Effect.Uncurried (runEffectFn3)

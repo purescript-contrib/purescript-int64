@@ -1,8 +1,5 @@
 # Int64
 
-__*WIP*__ I intend to move this package to https://github.com/purescript-contrib
-after the PureScript 0.15 release stabilizes.
-
 [![CI](https://github.com/purescript-contrib/purescript-int64/workflows/CI/badge.svg?branch=main)](https://github.com/purescript-contrib/purescript-int64/actions?query=workflow%3ACI+branch%3Amain)
 [![Release](https://img.shields.io/github/release/purescript-contrib/purescript-int64.svg)](https://github.com/purescript-contrib/purescript-int64/releases)
 [![Pursuit](https://pursuit.purescript.org/packages/purescript-int64/badge)](https://pursuit.purescript.org/packages/purescript-int64)

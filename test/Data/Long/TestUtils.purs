@@ -13,7 +13,7 @@ import Prelude
 
 import Data.Function.Uncurried (runFn2)
 import Data.Int (decimal)
-import Data.Long.FFI as FFI
+import Data.Int64.Internal.FFI as FFI
 import Effect.Uncurried (runEffectFn3)
 import Effect.Unsafe (unsafePerformEffect)
 

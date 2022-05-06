@@ -6,14 +6,14 @@ import Prelude
 
 import Control.Monad.Gen (chooseInt)
 import Data.Int (Parity(..), Radix, binary, decimal, hexadecimal, octal, radix)
-import Data.Long.Internal (class SInfo, Long, Long', SignProxy(..), Signed, ULong, Unsigned)
-import Data.Long.Internal as Internal
+import Data.Int64.Internal (class SInfo, Int64, Long', SignProxy(..), Signed, Unsigned, UInt64)
+import Data.Int64.Internal as Internal
 import Data.Maybe (Maybe(..), isJust, isNothing)
+import Data.Number as Number
 import Data.Ord (abs)
 import Data.Traversable (traverse_)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
-import Global as Number
 import Test.QuickCheck (class Arbitrary, class Testable, arbitrary, quickCheck)
 import Test.QuickCheck.Laws.Data (checkCommutativeRing, checkEq, checkEuclideanRing, checkOrd, checkRing, checkSemiring)
 import Test.Spec (Spec, describe, it)
@@ -44,7 +44,7 @@ longSpec = describe "Long" do
 
   it "should be built from high and low bits" do
     quickCheck' \high low ->
-      let l = Internal.fromLowHighBits low high :: Long
+      let l = Internal.fromLowHighBits low high :: Int64
       in Internal.highBits l == high && Internal.lowBits l == low
 
   it "should convert ints" $ do
@@ -80,7 +80,7 @@ longSpec = describe "Long" do
       ]
 
   it "should reject conversion from non whole numbers" $ do
-    traverse_ (\n -> Internal.fromNumber n :: Maybe Long `shouldSatisfy` isNothing)
+    traverse_ (\n -> (Internal.fromNumber n :: Maybe Int64) `shouldSatisfy` isNothing)
       [ 5.5
       , 100.1
       , 200.25
@@ -91,22 +91,22 @@ longSpec = describe "Long" do
       ]
 
   it "should reject conversion of numbers outside the long range" $ do
-    traverse_ (\n -> Internal.fromNumber n :: Maybe Long `shouldSatisfy` isNothing)
+    traverse_ (\n -> (Internal.fromNumber n :: Maybe Int64) `shouldSatisfy` isNothing)
       [ -10000000000000000000.0 -- Must be big enough to store precision
       , 10000000000000000000.0
       ]
 
-    traverse_ (\n -> Internal.fromNumber n :: Maybe ULong `shouldSatisfy` isNothing)
+    traverse_ (\n -> (Internal.fromNumber n :: Maybe UInt64) `shouldSatisfy` isNothing)
       [ -1.0
       , 20000000000000000000.0
       ]
 
   it "should determine odd/even" do
-    quickCheck' \(l :: Long) -> (Internal.parity l == Even) == (l `mod` two == zero)
-    quickCheck' \(l :: ULong) -> (Internal.parity l == Even) == (l `mod` two == zero)
+    quickCheck' \(l :: Int64) -> (Internal.parity l == Even) == (l `mod` two == zero)
+    quickCheck' \(l :: UInt64) -> (Internal.parity l == Even) == (l `mod` two == zero)
 
   it "should always have positive mods" do
-    quickCheck' \(l1 :: Long) l2 -> Internal.positive $ l1 `mod` l2
+    quickCheck' \(l1 :: Int64) l2 -> Internal.positive $ l1 `mod` l2
 
   it "should div, quot, mod, rem by 0 be 0" do
     traverse_ (\f -> f (Internal.signedLongFromInt 2) zero `shouldEqual` zero)
@@ -173,22 +173,22 @@ fromStringSpec = describe "fromString" do
     readSigned hexadecimal "8000000000000000" `shouldSatisfy` isNothing
     readSigned hexadecimal "-8000000000000001" `shouldSatisfy` isNothing
 
-readSigned :: Radix -> String -> Maybe Long
+readSigned :: Radix -> String -> Maybe Int64
 readSigned = Internal.fromStringAs
 
-readUnsigned :: Radix -> String -> Maybe ULong
+readUnsigned :: Radix -> String -> Maybe UInt64
 readUnsigned = Internal.fromStringAs
 
-i2lS :: Int -> Long
+i2lS :: Int -> Int64
 i2lS = Internal.signedLongFromInt
 
-i2lU :: Int -> ULong
+i2lU :: Int -> UInt64
 i2lU = Internal.unsafeFromInt
 
-prxSignedLong :: Proxy Long
+prxSignedLong :: Proxy Int64
 prxSignedLong = Proxy
 
-prxUnsignedLong :: Proxy ULong
+prxUnsignedLong :: Proxy UInt64
 prxUnsignedLong = Proxy
 
 prxIntInSignedLong :: Proxy IntInSignedLong
@@ -204,7 +204,7 @@ two :: forall s. (SInfo s) => Long' s
 two = Internal.unsafeFromInt 2
 
 -- Helper for Longs within the Int range
-newtype IntInSignedLong = IntInSignedLong Long
+newtype IntInSignedLong = IntInSignedLong Int64
 instance arbitraryIntInSignedLong :: Arbitrary IntInSignedLong where
   arbitrary = IntInSignedLong <<< Internal.signedLongFromInt <$> arbitrary
 

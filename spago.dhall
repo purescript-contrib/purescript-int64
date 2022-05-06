@@ -1,5 +1,14 @@
 { name = "int64"
-, dependencies = [ "prelude", "integers", "effect", "foreign", "nullable", "functions", "maybe" ]
+, dependencies =
+  [ "prelude"
+  , "integers"
+  , "effect"
+  , "foreign"
+  , "nullable"
+  , "functions"
+  , "maybe"
+  , "quickcheck"
+  ]
 , packages = ./packages.dhall
 , sources = [ "src/**/*.purs", ]
 , license = "MIT"

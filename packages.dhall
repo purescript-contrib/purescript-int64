@@ -1,6 +1,5 @@
 let upstream =
-      https://raw.githubusercontent.com/purescript/package-sets/prepare-0.15/src/packages.dhall
-        sha256:0c9c7cd174b7529f2862d52fbfee8cffe1ba8b9cfed3f0f600bdb5be0a14c0ff
+      https://raw.githubusercontent.com/purescript/package-sets/psc-0.15.0-20220505/src/packages.dhall
+        sha256:ba57c25c86fd54c2b672cda3a6836bbbdff4b1bbf946bceaabb64e5a10285638
 
 in  upstream
-  with string-parsers.version = "main"
