@@ -1,30 +1,33 @@
 module Data.UInt64
-       ( module R
-       , fromLowHighBits
-       , fromInt
-       , fromNumber
-       , fromString
-       , fromStringAs
-       , lowBits
-       , highBits
-       , toInt
-       , toNumber
-       , toString
-       , toStringAs
-       , parity
-       , even
-       , odd
-       , quot
-       , rem
-       , toSigned
-       , and, (.&.)
-       , or, (.|.)
-       , xor, (.^.)
-       , shl
-       , shr
-       , zshr
-       , complement
-       ) where
+  ( module R
+  , fromLowHighBits
+  , fromInt
+  , fromNumber
+  , fromString
+  , fromStringAs
+  , lowBits
+  , highBits
+  , toInt
+  , toNumber
+  , toString
+  , toStringAs
+  , parity
+  , even
+  , odd
+  , quot
+  , rem
+  , toSigned
+  , and
+  , (.&.)
+  , or
+  , (.|.)
+  , xor
+  , (.^.)
+  , shl
+  , shr
+  , zshr
+  , complement
+  ) where
 
 import Data.Int (Parity, Radix)
 import Data.Int64.Internal (UInt64) as R

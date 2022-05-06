@@ -1,6 +1,6 @@
 module Data.Long.InternalSpec
-       ( internalSpec
-       ) where
+  ( internalSpec
+  ) where
 
 import Prelude
 
@@ -44,15 +44,19 @@ longSpec = describe "Long" do
 
   it "should be built from high and low bits" do
     quickCheck' \high low ->
-      let l = Internal.fromLowHighBits low high :: Int64
-      in Internal.highBits l == high && Internal.lowBits l == low
+      let
+        l = Internal.fromLowHighBits low high :: Int64
+      in
+        Internal.highBits l == high && Internal.lowBits l == low
 
   it "should convert ints" $ do
     quickCheck' \i -> Internal.toInt (Internal.signedLongFromInt i) == Just i
     quickCheck' \i' ->
-      let i = abs i'
-          l = Internal.unsignedLongFromInt (abs i)
-      in (l >>= Internal.toInt) == Just i
+      let
+        i = abs i'
+        l = Internal.unsignedLongFromInt (abs i)
+      in
+        (l >>= Internal.toInt) == Just i
 
   it "should fail to convert negative ints to unsigned longs" do
     Internal.unsignedLongFromInt (-1) `shouldSatisfy` isNothing
@@ -205,6 +209,7 @@ two = Internal.unsafeFromInt 2
 
 -- Helper for Longs within the Int range
 newtype IntInSignedLong = IntInSignedLong Int64
+
 instance arbitraryIntInSignedLong :: Arbitrary IntInSignedLong where
   arbitrary = IntInSignedLong <<< Internal.signedLongFromInt <$> arbitrary
 
@@ -215,6 +220,7 @@ derive newtype instance commutativeRingIntInSignedLong :: CommutativeRing IntInS
 derive newtype instance eucledianRingIntInSignedLong :: EuclideanRing IntInSignedLong
 
 newtype Radix' = Radix' Radix
+
 instance arbitraryRadix' :: Arbitrary Radix' where
   arbitrary = chooseInt 2 36 >>= \i ->
     case radix i of

@@ -1,13 +1,13 @@
 module Data.Long.TestUtils
-       ( i2lS
-       , i2lU
-       , unsafeS2lS
-       , unsafeS2lU
-       , isSignedV
-       , isUnsignedV
-       , isBigEndianV
-       , isLittleEndianV
-       ) where
+  ( i2lS
+  , i2lU
+  , unsafeS2lS
+  , unsafeS2lU
+  , isSignedV
+  , isUnsignedV
+  , isBigEndianV
+  , isLittleEndianV
+  ) where
 
 import Prelude
 

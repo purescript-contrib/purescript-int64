@@ -95,12 +95,9 @@ module Data.Int64.Internal
   , xor_
   , zero_
   , zshr
-  )
-  where
-
+  ) where
 
 import Prelude
-import Data.Int (Radix, decimal)
 import Effect.Uncurried (EffectFn3)
 import Foreign (Foreign)
 
@@ -127,20 +124,22 @@ class SInfo (s :: Signedness) where
 instance infoSigned :: SInfo Signed where
   ffiSignedness _ = (IsUnsigned false)
   toInt l =
-    let low = lowBits l
-        high = highBits l
-    in if (high == 0 && low >= 0) || (high == (-1) && low < 0)
-       then Just low
-       else Nothing
+    let
+      low = lowBits l
+      high = highBits l
+    in
+      if (high == 0 && low >= 0) || (high == (-1) && low < 0) then Just low
+      else Nothing
 
 instance infoUnsigned :: SInfo Unsigned where
   ffiSignedness _ = (IsUnsigned true)
   toInt l =
-    let low = lowBits l
-        high = highBits l
-    in if high == 0 && low > 0
-       then Just low
-       else Nothing
+    let
+      low = lowBits l
+      high = highBits l
+    in
+      if high == 0 && low > 0 then Just low
+      else Nothing
 
 newtype Long' (s :: Signedness) = Long' Long
 
@@ -149,7 +148,6 @@ type UInt64 = Long' Unsigned
 
 -- | Signed two’s-complement 64-bit integer.
 type Int64 = Long' Signed
-
 
 instance showLong' :: Show (Long' s) where
   show (Long' l) = show l
@@ -197,9 +195,11 @@ instance euclideanRingLong'Signed :: EuclideanRing (Long' Signed) where
   div l1 l2 =
     (l1 - (l1 `mod` l2)) `quot` l2
 
-  mod l1 l2  =
-   let l2' = abs l2
-   in ((l1 `rem` l2') + l2') `rem` l2'
+  mod l1 l2 =
+    let
+      l2' = abs l2
+    in
+      ((l1 `rem` l2') + l2') `rem` l2'
 
 instance euclideanRingLong'Unsigned :: EuclideanRing (Long' Unsigned) where
   degree = Int.floor <<< toNumber <<< abs
@@ -216,7 +216,7 @@ signedLongFromInt = unsafeFromInt
 
 unsignedLongFromInt :: Int -> Maybe (Long' Unsigned)
 unsignedLongFromInt i
-  | i >= 0    = Just $ unsafeFromInt i
+  | i >= 0 = Just $ unsafeFromInt i
   | otherwise = Nothing
 
 unsafeFromInt :: forall s. SInfo s => Int -> Long' s
@@ -227,13 +227,12 @@ fromLowHighBits l h = Long' $ runFn3 fromBits_ l h (ffiSignedness (SignProxy :: 
 
 fromNumber :: forall s. SInfo s => Bounded (Long' s) => Number -> Maybe (Long' s)
 fromNumber n =
-  if isValidNumber
-  then Just $ Long' $ runFn2 fromNumber_ n (ffiSignedness p)
+  if isValidNumber then Just $ Long' $ runFn2 fromNumber_ n (ffiSignedness p)
   else Nothing
 
   where
-    isValidNumber = isWholeNumber_ n && isNumberInLongRange p n
-    p = SignProxy :: SignProxy s
+  isValidNumber = isWholeNumber_ n && isNumberInLongRange p n
+  p = SignProxy :: SignProxy s
 
 fromString :: forall s. SInfo s => String -> Maybe (Long' s)
 fromString = fromStringAs decimal
@@ -260,8 +259,9 @@ toNumber (Long' l) = toNumber_ l
 
 -- | Returns whether a `Long'` is `Even` or `Odd`.
 parity :: forall s. Long' s -> Parity
-parity l | even l    = Even
-          | otherwise = Odd
+parity l
+  | even l = Even
+  | otherwise = Odd
 
 even :: forall s. Long' s -> Boolean
 even (Long' l) = isEven_ l
@@ -322,8 +322,8 @@ isNumberInLongRange :: forall s. Bounded (Long' s) => SignProxy s -> Number -> B
 isNumberInLongRange _ n =
   longBottomValueN <= n && n <= longTopValueN
   where
-    longBottomValueN = toNumber (bottom :: Long' s)
-    longTopValueN = toNumber (top :: Long' s)
+  longBottomValueN = toNumber (bottom :: Long' s)
+  longTopValueN = toNumber (top :: Long' s)
 
 foreign import numberBitsToInt :: Number -> Int
 
@@ -335,7 +335,6 @@ foreign import safeReadLong_ :: Fn3 String IsUnsigned Radix (Nullable Long)
 
 foreign import isWholeNumber_ :: Number -> Boolean
 
-
 -- FFI.purs from here
 
 -- A 64 bit two's-complement integer
@@ -344,23 +343,24 @@ foreign import data Long :: Type
 instance showLong :: Show Long where
   show l = toString_ l decimal <> suffix
     where
-      suffix = case unsigned_ l of
-        (IsUnsigned false) -> "l"
-        (IsUnsigned true) -> "ul"
+    suffix = case unsigned_ l of
+      (IsUnsigned false) -> "l"
+      (IsUnsigned true) -> "ul"
 
 instance eqLong :: Eq Long where
   eq a b = equals_ a b && (unsigned_ a == unsigned_ b)
 
 newtype IsUnsigned = IsUnsigned Boolean
+
 derive newtype instance eqIsUnsigned :: Eq IsUnsigned
 instance showIsUnsigned :: Show IsUnsigned where
   show (IsUnsigned v) = "(IsUnsigned " <> (show v) <> ")"
 
 newtype IsLittleEndian = IsLittleEndian Boolean
+
 derive newtype instance eqIsLittleEndian :: Eq IsLittleEndian
 instance showIsLittleEndian :: Show IsLittleEndian where
   show (IsLittleEndian v) = "(IsLittleEndian " <> (show v) <> ")"
-
 
 --
 -- Constants

@@ -1,6 +1,6 @@
 module Data.Long.FFISpec
-       ( ffiSpec
-       ) where
+  ( ffiSpec
+  ) where
 
 import Prelude
 
@@ -78,7 +78,7 @@ ffiSpec = describe "FFI" do
     (Internal.multiply_ (i2lS 5) (i2lS 3)) `shouldEqual` (i2lS 15)
     (Internal.negate_ (i2lS 5)) `shouldEqual` (i2lS (-5))
     (Internal.not_ (i2lS (-12345))) `shouldEqual` (i2lS 12344)
-    (i2lS 12344) `shouldSatisfy` (Internal.notEquals_ (i2lS (-12345)) )
+    (i2lS 12344) `shouldSatisfy` (Internal.notEquals_ (i2lS (-12345)))
     (Internal.or_ (i2lS 11) (i2lS 5)) `shouldEqual` (i2lS 15)
     (Internal.shiftLeft_ (i2lS 11) (i2lS 2)) `shouldEqual` (i2lS 44)
     (Internal.shiftRight_ (i2lS (-11)) (i2lS 2)) `shouldEqual` (i2lS (-3))
@@ -99,13 +99,13 @@ ffiSpec = describe "FFI" do
 
 -- Sample
 
-sampleS ::
-  { value :: Long
-  , high :: Int
-  , low :: Int
-  , beBytes :: Array Int
-  , leBytes :: Array Int
-  }
+sampleS
+  :: { value :: Long
+     , high :: Int
+     , low :: Int
+     , beBytes :: Array Int
+     , leBytes :: Array Int
+     }
 sampleS =
   { value: unsafeS2lS "-107374182489"
   , high: -26
@@ -114,13 +114,13 @@ sampleS =
   , leBytes: Array.reverse beBytes
   }
   where
-    beBytes = [255, 255, 255, 230, 255, 255, 255, 167]
+  beBytes = [ 255, 255, 255, 230, 255, 255, 255, 167 ]
 
-sampleU ::
-  { value :: Long
-  , high :: Int
-  , low :: Int
-  }
+sampleU
+  :: { value :: Long
+     , high :: Int
+     , low :: Int
+     }
 sampleU =
   { value: unsafeS2lU "18446743983515238366"
   , high: -22
