@@ -1,3 +1,4 @@
+-- | Signed 2’s-complement 64-bit integers.
 module Data.Int64
   ( module R
   , fromLowHighBits

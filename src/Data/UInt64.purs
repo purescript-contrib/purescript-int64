@@ -1,3 +1,4 @@
+-- | Unsigned 64-bit integers.
 module Data.UInt64
   ( module R
   , fromLowHighBits
@@ -104,7 +105,7 @@ quot = Internal.quot
 rem :: UInt64 -> UInt64 -> UInt64
 rem = Internal.rem
 
--- | Converts to an `Int64` by reading the bits as a 2’s complement 64-bit signed integer.
+-- | Converts to an `Int64` by reading the bits as a 2’s-complement 64-bit signed integer.
 toSigned :: UInt64 -> Int64
 toSigned = Internal.unsignedToSigned
 
