@@ -35,7 +35,7 @@ import Data.Int64.Internal (Int64, UInt64)
 import Data.Int64.Internal as Internal
 import Data.Maybe (Maybe)
 
--- | Creates an `Int64` from an `Int` value
+-- | Creates an `Int64` from an `Int` value.
 fromInt :: Int -> Int64
 fromInt = Internal.signedLongFromInt
 
@@ -45,7 +45,7 @@ fromInt = Internal.signedLongFromInt
 fromNumber :: Number -> Maybe Int64
 fromNumber = Internal.fromNumber
 
--- | Creates an `Int64` from low and high bits respresented as `Int`
+-- | Creates an `Int64` from low and high bits represented as `Int`.
 fromLowHighBits :: Int -> Int -> Int64
 fromLowHighBits = Internal.fromLowHighBits
 
@@ -59,11 +59,11 @@ fromString = Internal.fromString
 fromStringAs :: Radix -> String -> Maybe Int64
 fromStringAs = Internal.fromStringAs
 
--- | Get the low (least significant) bits of an `Int64` as an `Int`
+-- | Get the low (least significant) bits of an `Int64` as an `Int`.
 lowBits :: Int64 -> Int
 lowBits = Internal.lowBits
 
--- | Get the high (most significant) bits of an `Int64` as an `Int`
+-- | Get the high (most significant) bits of an `Int64` as an `Int`.
 highBits :: Int64 -> Int
 highBits = Internal.highBits
 
