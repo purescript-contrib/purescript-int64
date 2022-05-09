@@ -1,4 +1,50 @@
--- | Signed 2’s-complement 64-bit integers.
+-- | Signed two’s-complement 64-bit integers and operations.
+-- |
+-- | All of the usual arithmetic operations are supplied by typeclass
+-- | instances from typeclasses in the __Prelude__.
+-- |
+-- | The `Show` instance will suffix a lowercase ‘l’ for “long”.
+-- |
+-- | #### Usage
+-- |
+-- | ```purescript
+-- | import Prelude
+-- | import Data.Int64 as Int64
+-- |
+-- | let
+-- |   hundred = Int64.fromInt 100
+-- |   billion = Int64.fromInt 1000000000
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > hundred * billion
+-- | 100000000000l
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > billion / hundred
+-- | 10000000l
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > hundred + one
+-- | 101l
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > hundred * zero
+-- | 0l
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > Int64.lowBits (hundred * billion)
+-- | 1215752192
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > Int64.highBits (hundred * billion)
+-- | 23
+-- | ```
 module Data.Int64
   ( module R
   , fromLowHighBits
