@@ -1,9 +1,10 @@
 -- | Signed two’s-complement 64-bit integers and operations.
 -- |
 -- | All of the usual arithmetic operations are supplied by typeclass
--- | instances from typeclasses in the __Prelude__.
+-- | instances.
 -- |
 -- | The `Show` instance will suffix a lowercase ‘l’ for “long”.
+-- | (See `toString`.)
 -- |
 -- | #### Usage
 -- |

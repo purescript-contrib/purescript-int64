@@ -1,8 +1,46 @@
--- | Unsigned 64-bit integers.
+-- | Unsigned 64-bit integers and operations.
+-- |
+-- | All of the usual arithmetic operations are supplied by typeclass
+-- | instances.
+-- |
+-- | The `Show` instance will suffix a lowercase ‘ul’ for “unsigned long”.
+-- | (See `toString`.)
+-- |
+-- | #### Usage
+-- |
+-- | ```purescript
+-- | import Prelude
+-- | import Data.UInt64 as UInt64
+-- |
+-- | let
+-- |   hundred = UInt64.unsafeFromInt 100
+-- |   billion = UInt64.unsafeFromInt 1000000000
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > hundred * billion
+-- | 100000000000ul
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > billion / hundred
+-- | 10000000ul
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > hundred + one
+-- | 101ul
+-- | ```
+-- | ---
+-- | ```purescript
+-- | > hundred * zero
+-- | 0ul
+-- | ```
 module Data.UInt64
   ( module R
-  , fromLowHighBits
   , fromInt
+  , unsafeFromInt
+  , fromLowHighBits
   , fromNumber
   , fromString
   , fromStringAs
@@ -31,14 +69,20 @@ module Data.UInt64
   ) where
 
 import Data.Int (Parity, Radix)
-import Data.Int64.Internal (UInt64) as R
 import Data.Int64.Internal (Int64, UInt64)
+import Data.Int64.Internal (UInt64) as R
 import Data.Int64.Internal as Internal
 import Data.Maybe (Maybe)
 
 -- | Creates a `UInt64` from an `Int` value.
 fromInt :: Int -> Maybe UInt64
 fromInt = Internal.unsignedLongFromInt
+
+-- | Creates a `UInt64` from an `Int` value.
+-- |
+-- | If the `Int` is negative, the result is undefined.
+unsafeFromInt :: Int -> UInt64
+unsafeFromInt = Internal.unsafeFromInt
 
 -- | Creates a `UInt64` from a `Number` value. The number must already be an
 -- | integer and fall within the valid range of values for the `UInt64` type

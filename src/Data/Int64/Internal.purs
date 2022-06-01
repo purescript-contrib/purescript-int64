@@ -141,6 +141,7 @@ instance infoUnsigned :: SInfo Unsigned where
       if high == 0 && low > 0 then Just low
       else Nothing
 
+-- | Newtype wrapper for the foreign JavaScript `Long` object.
 newtype Long' (s :: Signedness) = Long' Long
 
 -- | Unsigned 64-bit integer.
@@ -337,7 +338,7 @@ foreign import isWholeNumber_ :: Number -> Boolean
 
 -- FFI.purs from here
 
--- A 64 bit two's-complement integer
+-- | The foreign JavaScript `Long` object.
 foreign import data Long :: Type
 
 instance showLong :: Show Long where
