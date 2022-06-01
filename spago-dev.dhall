@@ -13,7 +13,6 @@ conf //
 { sources = [ "src/**/*.purs", "test/**/*.purs", ]
 , dependencies = conf.dependencies #
   [ "spec"
-  , "psci-support"
   , "aff"
   , "quickcheck-laws"
   , "assert"
