@@ -1,13 +1,11 @@
 module Data.Int64.Internal
-  ( Int64
-  , IsLittleEndian(..)
+  ( IsLittleEndian(..)
   , IsUnsigned(..)
   , Long
-  , Long'
+  , Long'(..)
   , SignProxy(..)
   , Signed
   , Signedness
-  , UInt64
   , Unsigned
   , add_
   , and
@@ -143,12 +141,6 @@ instance infoUnsigned :: SInfo Unsigned where
 
 -- | Newtype wrapper for the foreign JavaScript `Long` object.
 newtype Long' (s :: Signedness) = Long' Long
-
--- | Unsigned 64-bit integer.
-type UInt64 = Long' Unsigned
-
--- | Signed two’s-complement 64-bit integer.
-type Int64 = Long' Signed
 
 instance showLong' :: Show (Long' s) where
   show (Long' l) = show l

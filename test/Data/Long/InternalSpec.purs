@@ -6,12 +6,17 @@ import Prelude
 
 import Control.Monad.Gen (chooseInt)
 import Data.Int (Parity(..), Radix, binary, decimal, hexadecimal, octal, radix)
-import Data.Int64.Internal (class SInfo, Int64, Long', SignProxy(..), Signed, Unsigned, UInt64)
+import Data.Int64 (Int64)
+import Data.Int64 as Int64
+import Data.Int64.Internal (class SInfo, Long', SignProxy(..), Signed, Unsigned)
 import Data.Int64.Internal as Internal
 import Data.Maybe (Maybe(..), isJust, isNothing)
 import Data.Number as Number
 import Data.Ord (abs)
 import Data.Traversable (traverse_)
+import Data.UInt64 (UInt64)
+import Data.UInt64 (UInt64)
+import Data.UInt64 as UInt64
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
 import Test.QuickCheck (class Arbitrary, class Testable, arbitrary, quickCheck)
@@ -45,9 +50,9 @@ longSpec = describe "Long" do
   it "should be built from high and low bits" do
     quickCheck' \high low ->
       let
-        l = Internal.fromLowHighBits low high :: Int64
+        l = Int64.fromLowHighBits low high :: Int64
       in
-        Internal.highBits l == high && Internal.lowBits l == low
+        Int64.highBits l == high && Int64.lowBits l == low
 
   it "should convert ints" $ do
     quickCheck' \i -> Internal.toInt (Internal.signedLongFromInt i) == Just i
@@ -63,10 +68,10 @@ longSpec = describe "Long" do
 
   it "should convert to strings" $ do
     quickCheck' \(Radix' r) l ->
-      readSigned r (Internal.toStringAs r l) == Just l
+      readSigned r (Int64.toStringAs r l) == Just l
 
     quickCheck' \(Radix' r) l ->
-      readUnsigned r (Internal.toStringAs r l) == Just l
+      readUnsigned r (UInt64.toStringAs r l) == Just l
 
   it "should convert numbers" $ do
     traverse_ (checkNumber signedProxy)
@@ -84,7 +89,7 @@ longSpec = describe "Long" do
       ]
 
   it "should reject conversion from non whole numbers" $ do
-    traverse_ (\n -> (Internal.fromNumber n :: Maybe Int64) `shouldSatisfy` isNothing)
+    traverse_ (\n -> (Int64.fromNumber n :: Maybe Int64) `shouldSatisfy` isNothing)
       [ 5.5
       , 100.1
       , 200.25
@@ -95,22 +100,22 @@ longSpec = describe "Long" do
       ]
 
   it "should reject conversion of numbers outside the long range" $ do
-    traverse_ (\n -> (Internal.fromNumber n :: Maybe Int64) `shouldSatisfy` isNothing)
+    traverse_ (\n -> (Int64.fromNumber n :: Maybe Int64) `shouldSatisfy` isNothing)
       [ -10000000000000000000.0 -- Must be big enough to store precision
       , 10000000000000000000.0
       ]
 
-    traverse_ (\n -> (Internal.fromNumber n :: Maybe UInt64) `shouldSatisfy` isNothing)
+    traverse_ (\n -> (UInt64.fromNumber n :: Maybe UInt64) `shouldSatisfy` isNothing)
       [ -1.0
       , 20000000000000000000.0
       ]
 
   it "should determine odd/even" do
-    quickCheck' \(l :: Int64) -> (Internal.parity l == Even) == (l `mod` two == zero)
-    quickCheck' \(l :: UInt64) -> (Internal.parity l == Even) == (l `mod` two == zero)
+    quickCheck' \(l :: Int64) -> (Int64.parity l == Even) == (l `mod` (Int64.fromInt 2) == zero)
+    quickCheck' \(l :: UInt64) -> (UInt64.parity l == Even) == (l `mod` (UInt64.unsafeFromInt 2) == zero)
 
   it "should always have positive mods" do
-    quickCheck' \(l1 :: Int64) l2 -> Internal.positive $ l1 `mod` l2
+    quickCheck' \(l1 :: Int64) l2 -> (_ > zero) $ l1 `mod` l2
 
   it "should div, quot, mod, rem by 0 be 0" do
     traverse_ (\f -> f (Internal.signedLongFromInt 2) zero `shouldEqual` zero)
@@ -178,13 +183,13 @@ fromStringSpec = describe "fromString" do
     readSigned hexadecimal "-8000000000000001" `shouldSatisfy` isNothing
 
 readSigned :: Radix -> String -> Maybe Int64
-readSigned = Internal.fromStringAs
+readSigned = Int64.fromStringAs
 
 readUnsigned :: Radix -> String -> Maybe UInt64
-readUnsigned = Internal.fromStringAs
+readUnsigned = UInt64.fromStringAs
 
 i2lS :: Int -> Int64
-i2lS = Internal.signedLongFromInt
+i2lS = Int64.fromInt
 
 -- i2lU :: Int -> UInt64
 -- i2lU = Internal.unsafeFromInt
@@ -204,14 +209,11 @@ signedProxy = SignProxy
 unsignedProxy :: SignProxy Unsigned
 unsignedProxy = SignProxy
 
-two :: forall s. (SInfo s) => Long' s
-two = Internal.unsafeFromInt 2
-
 -- Helper for Longs within the Int range
 newtype IntInSignedLong = IntInSignedLong Int64
 
 instance arbitraryIntInSignedLong :: Arbitrary IntInSignedLong where
-  arbitrary = IntInSignedLong <<< Internal.signedLongFromInt <$> arbitrary
+  arbitrary = IntInSignedLong <<< Int64.fromInt <$> arbitrary
 
 derive newtype instance eqIntInSignedLong :: Eq IntInSignedLong
 derive newtype instance semiringIntInSignedLong :: Semiring IntInSignedLong
