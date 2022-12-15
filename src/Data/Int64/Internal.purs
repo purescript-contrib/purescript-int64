@@ -106,7 +106,6 @@ import Data.Maybe (Maybe(..))
 import Data.Nullable (Nullable)
 import Data.Nullable as Nullable
 import Data.Ord (abs)
-import Test.QuickCheck.Arbitrary (class Arbitrary, arbitrary)
 
 foreign import data Signedness :: Type
 
@@ -187,7 +186,8 @@ instance euclideanRingLong'Signed :: EuclideanRing (Long' Signed) where
   degree = Int.floor <<< toNumber <<< abs
   div l1 l2 =
     (l1 - (l1 `mod` l2)) `quot` l2
-
+  -- https://github.com/purescript/purescript-prelude/blob/f4cad0ae8106185c9ab407f43cf9abf05c256af4/src/Data/EuclideanRing.js#L14
+  -- https://en.m.wikipedia.org/wiki/Modulo_operation
   mod l1 l2 =
     let
       l2' = abs l2
@@ -198,9 +198,6 @@ instance euclideanRingLong'Unsigned :: EuclideanRing (Long' Unsigned) where
   degree = Int.floor <<< toNumber <<< abs
   div = quot
   mod = rem
-
-instance arbitraryLong' :: SInfo s => Arbitrary (Long' s) where
-  arbitrary = fromLowHighBits <$> arbitrary <*> arbitrary
 
 -- Constructors
 
@@ -488,6 +485,8 @@ foreign import lessThan_ :: Long -> Fn1 Long Boolean
 foreign import lessThanOrEqual_ :: Long -> Fn1 Long Boolean
 
 -- | Returns this Long modulo the specified.
+-- |
+-- | The foreign implementation only works when the divisor is in the Int range.
 foreign import modulo_ :: Long -> Fn1 Long Long
 
 -- | Returns the product of this and the specified Long.
