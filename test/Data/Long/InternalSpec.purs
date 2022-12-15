@@ -8,6 +8,7 @@ import Control.Monad.Gen (chooseInt)
 import Data.Int (Parity(..), Radix, binary, decimal, hexadecimal, octal, radix)
 import Data.Int64 (Int64)
 import Data.Int64 as Int64
+import Data.Int64.Gen (chooseInt64)
 import Data.Int64.Internal (class SInfo, Long', SignProxy(..), Signed, Unsigned)
 import Data.Int64.Internal as Internal
 import Data.Maybe (Maybe(..), isJust, isNothing)
@@ -15,15 +16,14 @@ import Data.Number as Number
 import Data.Ord (abs)
 import Data.Traversable (traverse_)
 import Data.UInt64 (UInt64)
-import Data.UInt64 (UInt64)
 import Data.UInt64 as UInt64
+import Data.UInt64.Gen (chooseUInt64)
 import Effect.Aff (Aff)
 import Effect.Class (liftEffect)
-import Test.QuickCheck (class Arbitrary, class Testable, arbitrary, quickCheck)
-import Test.QuickCheck.Laws.Data (checkCommutativeRing, checkEq, checkEuclideanRing, checkOrd, checkRing, checkSemiring)
+import Test.QuickCheck (class Arbitrary, class Testable, arbitrary, quickCheck, (<?>))
+import Test.QuickCheck.Laws.Data (checkBoundedGen, checkCommutativeRingGen, checkEqGen, checkEuclideanRingGen, checkOrdGen, checkRingGen, checkSemiringGen)
 import Test.Spec (Spec, describe, it)
 import Test.Spec.Assertions (shouldEqual, shouldSatisfy)
-import Type.Proxy (Proxy(..))
 
 internalSpec :: Spec Unit
 internalSpec = do
@@ -33,19 +33,23 @@ internalSpec = do
 longSpec :: Spec Unit
 longSpec = describe "Long" do
   it "should follow laws" $ liftEffect do
-    checkEq prxSignedLong
-    checkOrd prxSignedLong
-    checkSemiring prxSignedLong
-    checkRing prxSignedLong
-    checkCommutativeRing prxSignedLong
-    -- since degree is only up to int, we can only check for IntInLong
-    checkEuclideanRing prxIntInSignedLong
+    checkEqGen $ chooseInt64 bottom top
+    checkOrdGen $ chooseInt64 bottom top
+    checkBoundedGen $ chooseInt64 bottom top
+    checkSemiringGen $ chooseInt64 bottom top
+    checkRingGen $ chooseInt64 bottom top
+    checkCommutativeRingGen $ chooseInt64 bottom top
+    -- `mod` is only lawful if the divisor is in 32-bit Int range.
+    checkEuclideanRingGen $ chooseInt64 (Int64.fromInt bottom) (Int64.fromInt top)
 
-    checkEq prxUnsignedLong
-    checkOrd prxUnsignedLong
-    checkSemiring prxUnsignedLong
-    checkRing prxUnsignedLong
-    checkCommutativeRing prxUnsignedLong
+    checkEqGen $ chooseUInt64 bottom top
+    checkOrdGen $ chooseUInt64 bottom top
+    checkBoundedGen $ chooseUInt64 bottom top
+    checkSemiringGen $ chooseUInt64 bottom top
+    checkRingGen $ chooseUInt64 bottom top
+    checkCommutativeRingGen $ chooseUInt64 bottom top
+    -- `mod` is only lawful if the divisor is in 32-bit Int range.
+    checkEuclideanRingGen $ chooseUInt64 zero (UInt64.unsafeFromInt top)
 
   it "should be built from high and low bits" do
     quickCheck' \high low ->
@@ -67,10 +71,10 @@ longSpec = describe "Long" do
     Internal.unsignedLongFromInt (-1) `shouldSatisfy` isNothing
 
   it "should convert to strings" $ do
-    quickCheck' \(Radix' r) l ->
+    quickCheck' \(Radix' r) (Int64' l) ->
       readSigned r (Int64.toStringAs r l) == Just l
 
-    quickCheck' \(Radix' r) l ->
+    quickCheck' \(Radix' r) (UInt64' l) ->
       readUnsigned r (UInt64.toStringAs r l) == Just l
 
   it "should convert numbers" $ do
@@ -111,11 +115,16 @@ longSpec = describe "Long" do
       ]
 
   it "should determine odd/even" do
-    quickCheck' \(l :: Int64) -> (Int64.parity l == Even) == (l `mod` (Int64.fromInt 2) == zero)
-    quickCheck' \(l :: UInt64) -> (UInt64.parity l == Even) == (l `mod` (UInt64.unsafeFromInt 2) == zero)
+    quickCheck' \(Int64' l) -> (Int64.parity l == Even) == (l `mod` (Int64.fromInt 2) == zero)
+    quickCheck' \(UInt64' l) -> (UInt64.parity l == Even) == (l `mod` (UInt64.unsafeFromInt 2) == zero)
 
-  it "should always have positive mods" do
-    quickCheck' \(l1 :: Int64) l2 -> (_ > zero) $ l1 `mod` l2
+  it "Int64 should always have positive mods" do
+    -- `mod` is only lawful if the divisor is in 32-bit Int range.
+    quickCheck' \(Int64' l1) l2 -> (l1 `mod` Int64.fromInt l2) > zero <?> show l1 <> " `mod` " <> show l2
+
+  it "UInt64 should always have positive mods" do
+    -- `mod` is only lawful if the divisor is in 32-bit Int range.
+    quickCheck' \(UInt64' l1) l2 -> (l1 `mod` UInt64.unsafeFromInt (abs l2)) > zero <?> show l1 <> " `mod` " <> show l2
 
   it "should div, quot, mod, rem by 0 be 0" do
     traverse_ (\f -> f (Internal.signedLongFromInt 2) zero `shouldEqual` zero)
@@ -191,35 +200,11 @@ readUnsigned = UInt64.fromStringAs
 i2lS :: Int -> Int64
 i2lS = Int64.fromInt
 
--- i2lU :: Int -> UInt64
--- i2lU = Internal.unsafeFromInt
-
-prxSignedLong :: Proxy Int64
-prxSignedLong = Proxy
-
-prxUnsignedLong :: Proxy UInt64
-prxUnsignedLong = Proxy
-
-prxIntInSignedLong :: Proxy IntInSignedLong
-prxIntInSignedLong = Proxy
-
 signedProxy :: SignProxy Signed
 signedProxy = SignProxy
 
 unsignedProxy :: SignProxy Unsigned
 unsignedProxy = SignProxy
-
--- Helper for Longs within the Int range
-newtype IntInSignedLong = IntInSignedLong Int64
-
-instance arbitraryIntInSignedLong :: Arbitrary IntInSignedLong where
-  arbitrary = IntInSignedLong <<< Int64.fromInt <$> arbitrary
-
-derive newtype instance eqIntInSignedLong :: Eq IntInSignedLong
-derive newtype instance semiringIntInSignedLong :: Semiring IntInSignedLong
-derive newtype instance ringIntInSignedLong :: Ring IntInSignedLong
-derive newtype instance commutativeRingIntInSignedLong :: CommutativeRing IntInSignedLong
-derive newtype instance eucledianRingIntInSignedLong :: EuclideanRing IntInSignedLong
 
 newtype Radix' = Radix' Radix
 
@@ -228,6 +213,16 @@ instance arbitraryRadix' :: Arbitrary Radix' where
     case radix i of
       Just r -> pure (Radix' r)
       Nothing -> arbitrary
+
+newtype Int64' = Int64' Int64
+
+instance Arbitrary Int64' where
+  arbitrary = Int64' <$> chooseInt64 bottom top
+
+newtype UInt64' = UInt64' UInt64
+
+instance Arbitrary UInt64' where
+  arbitrary = UInt64' <$> chooseUInt64 bottom top
 
 quickCheck' :: forall a. Testable a => a -> Aff Unit
 quickCheck' = liftEffect <<< quickCheck

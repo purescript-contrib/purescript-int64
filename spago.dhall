@@ -7,7 +7,7 @@
   , "nullable"
   , "functions"
   , "maybe"
-  , "quickcheck"
+  , "gen"
   , "unsafe-coerce"
   ]
 , packages = ./packages.dhall

@@ -81,7 +81,6 @@ import Data.Int (Parity, Radix, decimal)
 import Data.Int64.Internal as Internal
 import Data.Maybe (Maybe)
 import Data.UInt64 (UInt64)
-import Test.QuickCheck (class Arbitrary)
 import Unsafe.Coerce (unsafeCoerce)
 
 -- | Signed two’s-complement 64-bit integer.
@@ -98,8 +97,11 @@ derive newtype instance Bounded Int64
 derive newtype instance Semiring Int64
 derive newtype instance Ring Int64
 derive newtype instance CommutativeRing Int64
+
+-- | The `EuclideanRing` instance provides a `mod` operator which
+-- | is only lawful if the *divisor* is in the `Int` range,
+-- | *-2³¹ ≤ divisor ≤ 2³¹⁻¹*.
 derive newtype instance EuclideanRing Int64
-derive newtype instance Arbitrary Int64
 
 -- | Creates an `Int64` from an `Int` value.
 fromInt :: Int -> Int64

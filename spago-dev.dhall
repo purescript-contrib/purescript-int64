@@ -15,6 +15,7 @@ conf //
   [ "spec"
   , "aff"
   , "quickcheck-laws"
+  , "quickcheck"
   , "assert"
   , "arrays"
   , "foldable-traversable"

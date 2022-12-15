@@ -69,7 +69,6 @@ import Prelude
 import Data.Int (Parity, Radix, decimal)
 import Data.Int64.Internal as Internal
 import Data.Maybe (Maybe)
-import Test.QuickCheck (class Arbitrary)
 
 -- | Unsigned 64-bit integer.
 newtype UInt64 = UInt64 (Internal.Long' Internal.Unsigned)
@@ -86,7 +85,6 @@ derive newtype instance Semiring UInt64
 derive newtype instance Ring UInt64
 derive newtype instance CommutativeRing UInt64
 derive newtype instance EuclideanRing UInt64
-derive newtype instance Arbitrary UInt64
 
 -- | Creates a `UInt64` from an `Int` value.
 fromInt :: Int -> Maybe UInt64
