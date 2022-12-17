@@ -11,7 +11,7 @@
   , "unsafe-coerce"
   ]
 , packages = ./packages.dhall
-, sources = [ "src/**/*.purs", ]
+, sources = [ "src/**/*.purs" ]
 , license = "MIT"
 , repository = "https://github.com/purescript-contrib/purescript-int64"
 }
