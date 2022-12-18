@@ -100,7 +100,7 @@ derive newtype instance CommutativeRing Int64
 
 -- | The `EuclideanRing` instance provides a `mod` operator which
 -- | is only lawful if the *divisor* is in the `Int` range,
--- | *-2³¹ ≤ divisor ≤ 2³¹⁻¹*.
+-- | *-2³¹ ≤ divisor ≤ 2³¹-1*.
 derive newtype instance EuclideanRing Int64
 
 -- | Creates an `Int64` from an `Int` value.
