@@ -63,7 +63,7 @@ You can contribute to `int64` in several ways:
 
 Run the test suite:
 
-    spago -x spago-dev.dhall test
+    spago test
 
 ## Provenance
 
