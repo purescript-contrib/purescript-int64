@@ -12,6 +12,12 @@ Bugfixes:
 
 Other improvements:
 
+## [v3.0.2](https://github.com/purescript-contrib/purescript-int64/releases/tag/v3.0.2) - 2026-10-11
+
+Other improvements:
+
+- Correct the package license to `MIT AND Apache-2.0` to include the bundled Apache-2.0-licensed long.js code.
+
 ## [v3.0.1](https://github.com/purescript-contrib/purescript-int64/releases/tag/v3.0.1) - 2026-10-11
 
 Other improvements:

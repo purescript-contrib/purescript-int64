@@ -2,8 +2,8 @@ package:
   name: int64
   description: Signed and unsigned 64-bit integer types and operations.
   publish:
-    version: 3.0.1
-    license: MIT
+    version: 3.0.2
+    license: MIT AND Apache-2.0
     location:
       githubOwner: purescript-contrib
       githubRepo: purescript-int64
