@@ -12,6 +12,8 @@ Bugfixes:
 
 Other improvements:
 
+- Migrate to registry-backed Spago and update CI tooling.
+
 ## [v3.0.0](https://github.com/purescript-contrib/purescript-int64/releases/tag/v3.0.0) - 2022-12-17
 
 Breaking changes:

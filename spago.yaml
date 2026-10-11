@@ -1,0 +1,36 @@
+package:
+  name: int64
+  description: Signed and unsigned 64-bit integer types and operations.
+  publish:
+    version: 3.0.1
+    license: MIT
+    location:
+      githubOwner: purescript-contrib
+      githubRepo: purescript-int64
+  build:
+    strict: true
+  dependencies:
+    - effect: ">=4.0.0 <5.0.0"
+    - foreign: ">=7.0.0 <8.0.0"
+    - functions: ">=6.0.0 <7.0.0"
+    - gen: ">=4.0.0 <5.0.0"
+    - integers: ">=6.0.0 <7.0.0"
+    - maybe: ">=6.0.0 <7.0.0"
+    - nullable: ">=6.0.0 <7.0.0"
+    - prelude: ">=6.0.1 <7.0.0"
+    - unsafe-coerce: ">=6.0.0 <7.0.0"
+  test:
+    main: Test.Main
+    dependencies:
+      - aff
+      - arrays
+      - assert
+      - foldable-traversable
+      - gen
+      - numbers
+      - quickcheck
+      - quickcheck-laws
+      - spec
+workspace:
+  packageSet:
+    registry: 81.4.0
