@@ -12,7 +12,11 @@ Bugfixes:
 
 Other improvements:
 
-- Migrate to registry-backed Spago and update CI tooling.
+## [v3.0.1](https://github.com/purescript-contrib/purescript-int64/releases/tag/v3.0.1) - 2026-10-11
+
+Other improvements:
+
+- Migrate to registry-backed Spago and update CI tooling. (#11 by @thomashoneyman)
 
 ## [v3.0.0](https://github.com/purescript-contrib/purescript-int64/releases/tag/v3.0.0) - 2022-12-17
 
